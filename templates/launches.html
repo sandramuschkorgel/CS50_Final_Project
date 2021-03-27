@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Launches
+{% endblock %}
+
+{% block main %}
+    <h4 class="headings">
+        What's up next?
+    </h4>
+    <br>
+    <form action="/launches" method="post">
+        <div class="filter">
+            <div>
+                <p>Select year:</p>
+            </div>
+            <div>
+                <p>Select destination:</p>
+            </div>
+        </div>
+        <div class="filter">
+            <div class="form-group">
+                <select class="form-control" name="year">
+                    <option label=" "></option>
+                    {% for row in years %}
+                        <option value="{{ row["launch_year"] }}" {{ "selected" if row["launch_year"] == selected_year }}>{{ row["launch_year"] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <select class="form-control" name="destination">
+                    <option label=" "></option>
+                    {% for row in destinations %}
+                        <option value="{{ row['destination'] }}" {{ "selected" if row["destination"] == request.form.get("destination")}}>{{ row["destination"] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <button class="btn btn-primary" type="submit" value="filter">Apply filter</button>
+            </div>
+        </div>
+    </form>
+    <br>
+    {% if launches %}
+        <table>
+            <tr>
+                <th>Launch Year</th>
+                <th>Launch Date</th>
+                <th>Mission Name</th>
+                <th>Launch Company</th>
+                <th>Destination</th>
+                <th>Available Payload</th>
+            </tr>
+            {% for row in launches %}
+                <tr>
+                    <td>{{ row["launch_year"] }}</td>
+                    <td>{{ row["launch_date"] }}</td>
+                    <td>{{ row["mission"] }}</td>
+                    <td>{{ row["launch_company"] }}</td>
+                    <td>{{ row["destination"] }}</td>
+                    <td>{{ row["av_payload"] }} kg</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No launches found. Select a different year and/or destination.</p>
+    {% endif %}
+{% endblock %}
+
+{% block footer %}
+    To make the website more applicable some launch data has been altered, or added entirely. Check out real upcoming launches <a href="/realdata">here</a>.
+{% endblock %}

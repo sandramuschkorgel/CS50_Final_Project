@@ -1,0 +1,81 @@
+nav .navbar-brand
+{
+    /* size for brand */
+    font-size: xx-large;
+}
+
+/* color for brand */
+nav .navbar-brand .blue
+{
+    color: #191970;
+}
+
+main .form-control
+{
+    /* center form controls */
+    display: inline-block;
+
+    /* override Bootstrap's 100% width for form controls*/
+    width: 180px;
+}
+
+main
+{
+    /* scroll horizontally as needed */
+    overflow-x: auto;
+
+    /* center contents */
+    text-align: center;
+
+}
+
+main img
+{
+    /* constrain images on small screens */
+    max-width: 100%;
+}
+
+th, td
+{
+    width: 200px;
+    padding: 7px;
+    text-align: left;
+}
+
+tr:hover
+{
+    background-color: LightGrey;
+}
+
+.filter
+{
+    display: grid;
+    column-gap: 5px;
+    grid-template-columns: 200px 200px 200px;
+    text-align: left;
+}
+
+.booking
+{
+    display: grid;
+    column-gap: 5px;
+    grid-template-columns: 200px 200px auto;
+    text-align: left;
+}
+
+.headings
+{
+    text-align: left;
+    color: #191970;
+}
+
+.text
+{
+    text-align: left;
+}
+
+.text_big
+{
+    text-align: left;
+    font-size: 20px;
+}

@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Apology
+{% endblock %}
+
+{% block main %}
+    <h4 class="headings" style="text-align: center;">
+        {{ bottom | urlencode }}
+    </h4>
+    <div>
+        <img alt="{{ top }}" class="border" src="/static/apology.JPG" title="{{ top }}">
+        <!-- original cat image: "http://memegen.link/custom/{{ top | urlencode }}/{{ bottom | urlencode }}.jpg?alt=https://i.imgur.com/CsCgN7Ll.png"-->
+    </div>
+    <h4 class="headings" style="text-align: center;">
+        {{ top | urlencode }}
+    </h4>
+{% endblock %}

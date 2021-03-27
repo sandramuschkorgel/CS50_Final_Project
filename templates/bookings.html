@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Bookings
+{% endblock %}
+
+{% block main %}
+    <h4 class="headings">
+        My space cargo bookings
+    </h4>
+    <br>
+    {% if bookings %}
+        <table>
+            <tr>
+                <th></th>
+                <th>Launch Date</th>
+                <th>Spaceport</th>
+                <th>Destination</th>
+                <th>Payload Weight</th>
+                <th>Payload Type</th>
+                <th>Total cost</th>
+                <th>Date of Booking</th>
+            </tr>
+
+            {% for row in bookings %}
+            <tr>
+                <td><input type=radio name="booking_id" form="form2" value="{{ row['booking_id'] }}"></td>
+                <td>{{ row["launch_date"] }}</td>
+                <td>{{ row["spaceport"] }}</td>
+                <td>{{ row["destination"] }}</td>
+                <td>{{ row["payload_weight"] }} kg</td>
+                <td>{{ row["payload_type"] }}</td>
+                <td>$ {{ row["price"] }}</td>
+                <td>{{ row["booking_date"] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br>
+        <form action="/cancel" id="form2" method="post">
+            <div class="booking">
+                <div>
+                    <button class="btn btn-primary" type="submit" value="cancel">Cancel</button>
+                </div>
+            </div>
+        </form>
+    {% else %}
+        <p>You have not booked any space cargo slots yet.</p>
+    {% endif %}
+{% endblock %}

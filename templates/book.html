@@ -1,0 +1,119 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Book
+{% endblock %}
+
+{% block main %}
+    <h4 class="headings">
+        Step 1: Specify your payload and launch details
+    </h4>
+    <br>
+    <form action="/book" method="post">
+        <div class="booking">
+            <div>
+                <p>Select a year:</p>
+            </div>
+            <div class="form-group">
+                <select class="form-control" name="year">
+                    {% for row in years %}
+                        <option value="{{ row['launch_year'] }}" {{ "selected" if row['launch_year'] == selected_year }}>{{ row["launch_year"] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="booking">
+            <div>
+                <p>Select a destination:</p>
+            </div>
+            <div class="form-group">
+                <select class="form-control" name="destination">
+                    {% for row in destinations %}
+                        <option value="{{ row['destination'] }}" {{ "selected" if row['destination'] == request.form.get("destination") }}>{{ row["destination"] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="booking">
+            <div>
+                <p>Type in payload mass [kg]:</p>
+            </div>
+            <!-- Throws a warning on request method GET, since the user has not defined the payload weight yet -->
+            <div class="form-group">
+                <input class="form-control" name="payload_weight" required placeholder="Payload [kg]" type="number" value="{{ request.form.get('payload_weight') if request.method == 'POST' else NULL }}">
+            </div>
+        </div>
+        <div class="booking">
+            <div>
+                <p>Select payload type:</p>
+            </div>
+            <div class="form-group">
+                <select class="form-control" name="payload_type">
+                    {% for item in select_type %}
+                        <option value="{{ item }}" {{ "selected" if item == request.form.get("payload_type") }}>{{ item }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="booking">
+            <div>
+                <button class="btn btn-primary" name="submit" type="submit" value="pricing">Compare pricing</button>
+            </div>
+        </div>
+        <br><br>
+        <!-- Price Comparison -->
+        {% if request.form.get('submit') and available_launches %}
+            <h4 class="headings">
+                Step 2: Choose an available cargo slot
+            </h4>
+            <br>
+            <table>
+                <tr>
+                    <th>Select a slot</th>
+                    <th>Launch Company</th>
+                    <th>Launch Date</th>
+                    <th>Total Cost</th>
+                    <th>Availability</th>
+                    <th></th>
+                </tr>
+
+                {% for launch in available_launches %}
+                <tr>
+                    <td><input type="radio" name="mission_id" form="form1" value="{{ launch['id'] }}" {{ "disabled" if launch["bookable"] == "False" }}></td>
+                    <td>{{ launch["launch_company"] }}</td>
+                    <td>{{ launch["launch_date"] }}</td>
+                    <td>
+                    {% for item in price_comparison %}
+                        {% if item == launch["launch_company"] %}
+                            $ {{ price_comparison[item] }}
+                        {% endif %}
+                    {% endfor %}
+                    </td>
+                    <td>{{ "Yes" if launch["bookable"] == "True" else "No" }}</td>
+                    <td>{{ explanation if launch["bookable"] == "False" }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% elif request.form.get('submit') %}
+            <p>No data found. Select a different year and/or destination.</p>
+        {% endif %}
+    </form>
+    <br>
+    {% if request.form.get('submit') and available_launches %}
+        <form action="/bookings" id="form1" method="post">
+            <input type="hidden" name="payload_weight" value="{{ request.form.get('payload_weight') }}">
+            <input type="hidden" name="payload_type" value="{{ request.form.get('payload_type') }}">
+            <div class="booking">
+                <div>
+                    <button class="btn btn-primary" type="submit" value="booking">Book</button>
+                </div>
+            </div>
+        </form>
+    {% endif %}
+{% endblock %}
+
+{% block footer %}
+    {% if request.form.get('submit') and available_launches %}
+        Prices do not reflect real world data.
+    {% endif %}
+{% endblock %}

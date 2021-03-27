@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Real Launch Data
+{% endblock %}
+
+{% block main %}
+    <h4 class="headings">
+        SpaceX
+    </h4>
+    <!-- {{ spacex_launches | tojson }} also works fine -->
+    <table>
+        <tr>
+            <th>Flight Number</th>
+            <th>Mission Name</th>
+            <th>Launch Year</th>
+        </tr>
+        {% for mission in spacex_launches %}
+        <tr>
+            <td>{{ mission["flight_number"] }}</td>
+            <td>{{ mission["mission_name"] }}</td>
+            <td>{{ mission["launch_year"] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div class="text">
+        Where to go from here? This documentary offers some insights into SpaceX's
+        <a href="https://documentaryheaven.com/mars-inside-spacex/" target="_blank">Mission to Mars</a>.
+    </div>
+    <br>
+    <h4 class="headings">
+        Rocket Lab
+    </h4>
+    <div class="text">
+        Check out their latest launch
+        <a href="https://www.rocketlabusa.com/live-stream/" target="_blank">here</a>.
+    </div>
+    <br>
+    <h4 class="headings">
+        Arianespace
+    </h4>
+    <div class="text">
+        Europe's Arianespace can look back on 41 years of launching stuff into space. Check out this impressive
+        <a class="text" href="https://www.arianespace.com/missions/" target="_blank">list</a>.
+    </div>
+    <br>
+    <div>
+        <img src="/static/space_comic.jpg" alt="space_image">
+    </div>
+{% endblock %}
